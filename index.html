@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Simulation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+        }
+        canvas {
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="solarSystem" width="800" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('solarSystem');
+const ctx = canvas.getContext('2d');
+
+const sun = {
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    radius: 50,
+    color: 'yellow'
+};
+
+const planets = [
+    { name: 'Mercury', distance: 70, radius: 5, color: 'gray', angle: 0, speed: 0.1 },
+    { name: 'Venus', distance: 100, radius: 10, color: 'orange', angle: 0, speed: 0.07 },
+    { name: 'Earth', distance: 130, radius: 10, color: 'blue', angle: 0, speed: 0.05 },
+    { name: 'Mars', distance: 160, radius: 8, color: 'red', angle: 0, speed: 0.03 },
+    { name: 'Jupiter', distance: 220, radius: 20, color: 'brown', angle: 0, speed: 0.02 },
+    { name: 'Saturn', distance: 280, radius: 18, color: 'gold', angle: 0, speed: 0.015 },
+    { name: 'Uranus', distance: 340, radius: 15, color: 'lightblue', angle: 0, speed: 0.01 },
+    { name: 'Neptune', distance: 400, radius: 15, color: 'blue', angle: 0, speed: 0.008 }
+];
+
+function drawSun() {
+    ctx.beginPath();
+    ctx.arc(sun.x, sun.y, sun.radius, 0, Math.PI * 2);
+    ctx.fillStyle = sun.color;
+    ctx.fill();
+    ctx.closePath();
+}
+
+function drawPlanets() {
+    planets.forEach(planet => {
+        planet.angle += planet.speed;
+        const x = sun.x + planet.distance * Math.cos(planet.angle);
+        const y = sun.y + planet.distance * Math.sin(planet.angle);
+
+        ctx.beginPath();
+        ctx.arc(x, y, planet.radius, 0, Math.PI * 2);
+        ctx.fillStyle = planet.color;
+        ctx.fill();
+        ctx.closePath();
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawSun();
+    drawPlanets();
+    requestAnimationFrame(animate);
+}
+
+animate();
+    </script>
+</body>
+</html>
